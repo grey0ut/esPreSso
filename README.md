@@ -1,8 +1,8 @@
-# EsPreSso
+# esPreSso
 PowerShell module for generating unique and memorable passphrases
 
 ## Installation
-To install EsPreSso
+To install esPreSso
 ```Powershell
 PS> # to do
 
