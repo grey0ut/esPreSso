@@ -1,5 +1,5 @@
 BeforeAll {
-    $script:dscModuleName = 'EsPreSso'
+    $script:dscModuleName = 'esPreSso'
 
     Import-Module -Name $script:dscModuleName
 }
