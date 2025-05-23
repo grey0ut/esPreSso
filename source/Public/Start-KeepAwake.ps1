@@ -16,7 +16,7 @@ function Start-KeepAwake {
     .EXAMPLE
     PS> Start-KeepAwake
 
-    When ran with no parameters the function will attempt to keep the computer away indefinitely until cancelled.
+    When ran with no parameters the function will attempt to keep the computer awake indefinitely until cancelled.
     #>
     [CmdletBinding(DefaultParameterSetName = 'Manual')]
     [Alias("nosleep","ka")]
