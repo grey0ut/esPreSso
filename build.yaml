@@ -5,7 +5,6 @@
 
 BuiltModuleSubdirectory: module
 CopyPaths:
-  - en-US
 #  - DSCResources
   # - Modules
 Encoding: UTF8
@@ -31,7 +30,7 @@ NestedModule:
 #    OutputDirectory: ///Modules/HelperSubmodule
 #    VersionedOutputDirectory: false
 #    AddToManifest: false
-#    SemVer: 
+#    SemVer:
 #    # suffix:
 #    # prefix:
 
