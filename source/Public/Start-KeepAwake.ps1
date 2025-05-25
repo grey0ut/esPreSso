@@ -13,7 +13,7 @@ function Start-KeepAwake {
     A date time representing when to stop running the keep awake. Accepts common datetime formats
     .PARAMETER Interval
     The interval for how often a key press is sent. Default is 60 seconds and this should be fine for most scenarios.
-    .PARAMETER PowerPlanMode
+    .PARAMETER PowerControl
     Switch parameter that tells Start-KeepAwake to register a request via SetThreadExecutionState to keep the display awake and prevent sleep.
     Cancelled with Ctrl+C or other terminating signal.
     .EXAMPLE
@@ -21,7 +21,11 @@ function Start-KeepAwake {
 
     When ran with no parameters the function will attempt to keep the computer awake indefinitely until cancelled.
     .EXAMPLE
-    PS> Start-KeepAwake -PowerPlanMode
+    PS> Start-KeepAwake -Until "3:00pm"
+
+    will send a keypress of shift+F15 every minute until 3:00 pm the same day
+    .EXAMPLE
+    PS> Start-KeepAwake -PowerControl
 
     Will also attempt to keep the computer awake indefinitely but won't send any key presses.
     .NOTES
@@ -44,10 +48,10 @@ function Start-KeepAwake {
         [ValidateRange(1,86400)]
         [Int32]$Interval = 60,
         [Parameter(ParameterSetName='PowerPlan')]
-        [Switch]$PowerPlanMode
+        [Switch]$PowerControl
     )
 
-    if ($PowerPlanMode) {
+    if ($PowerControl) {
             try {
                 $Definition = @"
 using System;

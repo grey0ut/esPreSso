@@ -6,6 +6,8 @@ function Remove-KeepAwake {
     Unregisters the scheduled task created by Register-KeepAwake. There is no output.
     .EXAMPLE
     PS> Remove-KeepAwake
+
+    if there is an existing scheduled task for esPreSso this will cleanly remove it from Task Scheduler.
     #>
     [CmdletBinding()]
     param ()

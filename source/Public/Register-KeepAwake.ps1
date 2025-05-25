@@ -4,7 +4,10 @@ function Register-KeepAwake {
     registers a scheduled job to run Start-KeepAwake at user login
     .DESCRIPTION
     registers a scheduled job to run Start-KeepAwake at user login.  Allows control over the Start-KeepAwake settings as well as some scheduled job settings.
+    .EXAMPLE
+    PS> Register-KeepAwake
 
+    when ran in an administrative PowerShell session this will create a scheduled task that runs at logon and starts Start-KeepAwake with the -PowerControl parameter
     #>
     [CmdletBinding()]
     param ()
@@ -15,7 +18,7 @@ function Register-KeepAwake {
     if ($IsAdmin) {
         # get the currently logged in user in case the PowerShell session was elevated via a different username than the one logged in to the computer
         $UserName = (Get-CimInstance -Class Win32_ComputerSystem).Username
-        $ActionArgs = 'powershell.exe -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -Command "& {. "C:\Scripts\github\EsPreSso\source\Public\Start-KeepAwake.ps1"; Start-KeepAwake -PowerPlanMode}"'
+        $ActionArgs = 'powershell.exe -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -Command "& {Start-KeepAwake -PowerControl}"'
         $TaskSettings = @{
                     Action = $(New-ScheduledTaskAction -Execute "Conhost.exe" -Argument $ActionArgs)
                     Principal = $(New-ScheduledTaskPrincipal -UserId $Username -LogonType Interactive)
@@ -29,6 +32,6 @@ function Register-KeepAwake {
         }
         Register-ScheduledTask @TaskSettings
     } else {
-        Write-Warning "Registering a scheduled task requires elevation. Please re-run PowerShell and 'run as administrator' and try again."
+        Write-Warning "Registering a scheduled task requires elevation. Please re-run PowerShell with 'run as administrator' and try again."
     }
 }
