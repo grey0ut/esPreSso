@@ -12,10 +12,10 @@
 RootModule = 'esPreSso.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.1.0'
 
 # Supported PSEditions
-CompatiblePSEditions = @('Desktop')
+# CompatiblePSEditions = @('Desktop')
 
 # ID used to uniquely identify this module
 GUID = 'e13a703c-3b7c-4537-9439-716af6a3e114'
@@ -34,21 +34,6 @@ Description = 'A PowerShell module for keeping a Windows computer awake'
 
 # Minimum version of the Windows PowerShell engine required by this module
 PowerShellVersion = '5.1'
-
-# Name of the Windows PowerShell host required by this module
-# PowerShellHostName = ''
-
-# Minimum version of the Windows PowerShell host required by this module
-# PowerShellHostVersion = ''
-
-# Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-# DotNetFrameworkVersion = ''
-
-# Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-# CLRVersion = ''
-
-# Processor architecture (None, X86, Amd64) required by this module
-# ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
 RequiredModules = @()
@@ -96,13 +81,13 @@ PrivateData = @{
 
         Prerelease =  ''
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = 'Windows','KeepAwake','KeepAlive','Awake','Alive','Caffeine','Espresso'
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/grey0ut/esPreSso/blob/main/LICENSE'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/grey0ut/esPreSso'
 
         # A URL to an icon representing this module.
         # IconUri = ''
