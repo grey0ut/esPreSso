@@ -15,7 +15,7 @@ function Register-KeepAwake {
     if ($IsAdmin) {
         # get the currently logged in user in case the PowerShell session was elevated via a different username than the one logged in to the computer
         $UserName = (Get-CimInstance -Class Win32_ComputerSystem).Username
-        $ActionArgs = 'powershell.exe -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -Command "& {. "C:\Scripts\modules\EsPreSso\source\Public\Start-KeepAwake.ps1"; Start-KeepAwake -PowerPlanMode}"'
+        $ActionArgs = 'powershell.exe -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -Command "& {. "C:\Scripts\github\EsPreSso\source\Public\Start-KeepAwake.ps1"; Start-KeepAwake -PowerPlanMode}"'
         $TaskSettings = @{
                     Action = $(New-ScheduledTaskAction -Execute "Conhost.exe" -Argument $ActionArgs)
                     Principal = $(New-ScheduledTaskPrincipal -UserId $Username -LogonType Interactive)
