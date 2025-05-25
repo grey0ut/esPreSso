@@ -1,0 +1,14 @@
+ <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        text {
+            fill : #5e81ac;
+        }
+        tspan {
+            fill : #4488FF;
+        }
+    </style>
+
+  <text x="50%" y="50%" text-anchor="middle" font-size="36" font-family="monospace">
+        es<tspan>P</tspan>re<tspan>S</tspan>so
+  </text>
+</svg>
