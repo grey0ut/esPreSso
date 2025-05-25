@@ -20,6 +20,6 @@ function Get-KeepAwake {
     try {
         Get-ScheduledTask -TaskName $TaskName -TaskPath $TaskPath -ErrorAction Stop
     } catch {
-        Write-Warning "esPreSso scheduled task not found"
+        Write-Verbose "esPreSso scheduled task not found"
     }
 }

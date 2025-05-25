@@ -7,13 +7,19 @@ function Remove-KeepAwake {
     .EXAMPLE
     PS> Remove-KeepAwake
     #>
-    #Requires -RunAsAdministrator
     [CmdletBinding()]
     param ()
 
     $ScheduledTask = Get-KeepAwake
     if ($ScheduledTask) {
-        Write-Verbose "Removing scheduled task named $($ScheduledTask.TaskName) in $($ScheduledTask.TaskPath)"
-        Unregister-ScheduledTask -InputObject $ScheduledTask -Confirm:$false
+        $IsAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+        if ($IsAdmin) {
+            Write-Verbose "Removing scheduled task named $($ScheduledTask.TaskName) in $($ScheduledTask.TaskPath)"
+            Unregister-ScheduledTask -InputObject $ScheduledTask -Confirm:$false
+        } else {
+            Write-Warning "Removing a scheduled task requires elevation. Please re-run PowerShell and 'run as administrator' and try again."
+        }
+    } else {
+        Write-Warning "No scheduled task for esPreSso found"
     }
 }
