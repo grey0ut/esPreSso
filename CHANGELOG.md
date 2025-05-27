@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- added Start-KeepAwake function
-- initial testing of registered task functions
-- added PowerControl parameter to Start-KeepAwake that registers PowerShell.exe as a process that requires the display to stay awake
+- added Key parameter to Start-KeepAwake that lets you provide a key other than the default F15 to be pressed
+- added public and private functions Get-Keys adn ConvertKey-ToSendKeys to facilitate tab completion and syntax with the SendKeys method
 

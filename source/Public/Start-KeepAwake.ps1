@@ -3,7 +3,7 @@ function Start-KeepAwake {
     .SYNOPSIS
     This function attempts to keep the computer awake by sending a key-press every 60 seconds (by default)
     .DESCRIPTION
-    Using the WScript namespace to send keys this function will send a key combination of shift+F15 every 60 seconds by default to keep the computer awake and preven the screensaver
+    Using the WScript namespace to send keys this function will send a key combination of F15 every 60 seconds by default to keep the computer awake and preven the screensaver
     from activating.
     .PARAMETER Minutes
     Number of minutes to run the keep awake
@@ -13,6 +13,8 @@ function Start-KeepAwake {
     A date time representing when to stop running the keep awake. Accepts common datetime formats
     .PARAMETER Interval
     The interval for how often a key press is sent. Default is 60 seconds and this should be fine for most scenarios.
+    .PARAMETER Key
+    Optionally can specify which keypress to send.  The default, and most widely tested is F15, but just about any key on the keyboard can be specified. Supports tab completion to see which keys can be selected
     .PARAMETER PowerControl
     Switch parameter that tells Start-KeepAwake to register a request via SetThreadExecutionState to keep the display awake and prevent sleep.
     Cancelled with Ctrl+C or other terminating signal.
@@ -23,7 +25,11 @@ function Start-KeepAwake {
     .EXAMPLE
     PS> Start-KeepAwake -Until "3:00pm"
 
-    will send a keypress of shift+F15 every minute until 3:00 pm the same day
+    will send a keypress of F15 every minute until 3:00 pm the same day
+    .EXAMPLE
+    PS> Start-KeepAwake -Key Shift -Interval 10
+
+    will send a press of the 'shift' key every 10 seconds
     .EXAMPLE
     PS> Start-KeepAwake -PowerControl
 
@@ -47,6 +53,21 @@ function Start-KeepAwake {
         [Parameter(ParameterSetName='Until')]
         [ValidateRange(1,86400)]
         [Int32]$Interval = 60,
+        [Parameter(ParameterSetName='Manual')]
+        [Parameter(ParameterSetName='Until')]
+        [ArgumentCompleter({
+            param ($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
+            $ValidValues = Get-Keys
+            $ValidValues -like "$WordToComplete*"
+        })]
+        [ValidateScript({
+            if ($_ -in (Get-Keys)) {
+                $true
+            } else {
+                throw "$_ is not a valid key option"
+            }
+        })]
+        [String]$Key = 'F15',
         [Parameter(ParameterSetName='PowerPlan')]
         [Switch]$PowerControl
     )
@@ -121,13 +142,14 @@ public class PowerCtrl {
         }
 
         $WShell = New-Object -ComObject WScript.Shell
-        Write-Verbose "Keeping computer awake by sending 'Shift + F15' every $Interval seconds"
+        Write-Verbose $('Keeping computer awake by sending "{0}" every {1} seconds' -f $Key, $Interval)
+        $SendKeyValue = ConvertKey-ToSendKeys -Key $Key
         while ($RunTime -le $Duration) {
             if ($Duration.GetType().Name -ne "Boolean") {
                 Write-Verbose $('{0:n2} minutes remaining' -f ($Duration - $Runtime))
                 $Runtime += $($Interval/60)
             }
-            $WShell.SendKeys('+{F15}')
+            $WShell.SendKeys($SendKeyValue)
             Start-Sleep -seconds $Interval
         }
     }

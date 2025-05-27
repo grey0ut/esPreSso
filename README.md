@@ -5,7 +5,7 @@
 # esPreSso
 A PowerShell module for Windows that attempts to keep your computer awake by sending key-presses.  Inspired by the program 'Caffeine' and the numerous PowerShell variations that exist out there.
 
-The primary method that is used for keeping the computer awake is to send a key press of `Shift+F15` every 60 seconds.  This generally doesn't impact anything but can cause issues with Putty sessions, PowerPoint, Google Docs or Smartsheet.  By periodically sending a key press Windows, and many other programs, will think that the computer is in use and will **not** activate the lock screen or sleep.
+The primary method that is used for keeping the computer awake is to send a key press of `F15` every 60 seconds.  This generally doesn't impact anything but can cause issues with Putty sessions, PowerPoint, Google Docs or Smartsheet.  By periodically sending a key press Windows, and many other programs, will think that the computer is in use and will **not** activate the lock screen or sleep.
 
 Additionally a second method is provided via the `-PowerControl` parameter that registers the current PowerShell process as keeping the System and Display in use via the Windows API.  This is still being tested but seems to work at preventing screen lock and sleep even though there is no apparent user activity.
 
@@ -22,20 +22,20 @@ The primary function for this module is Start-KeepAwake.  It needs to be ran fro
 ```PowerShell
 PS> Start-KeepAwake -Verbose
 VERBOSE: Defaulting to indefinite runtime
-VERBOSE: Keeping computer awake by sending 'Shift + F15' every 60 seconds
+VERBOSE: Keeping computer awake by sending 'F15' every 60 seconds
 ```
-Here you can see that by default it will run indefinitely and simulate pressing 'Shift+F15' every 60 seconds.  You can also specify a different interval for the key press.
+Here you can see that by default it will run indefinitely and simulate pressing 'F15' every 60 seconds.  You can also specify a different interval for the key press.
 ```PowerShell
 PS> Start-KeepAwake -Interval 300 -Verbose
 VERBOSE: Defaulting to indefinite runtime
-VERBOSE: Keeping computer awake by sending 'Shift + F15' every 300 seconds
+VERBOSE: Keeping computer awake by sending 'F15' every 300 seconds
 ```
 You can manually specify how long you want Start-KeepAwake to run with the `Hours` and/or `Minutes` parameters as well.
 ```PowerShell
 PS> Start-KeepAwake -Hours 2 -Interval 10 -Verbose
 VERBOSE: Adding 2 hours of duration
 VERBOSE: Total duration is 120 minutes
-VERBOSE: Keeping computer awake by sending 'Shift + F15' every 10 seconds
+VERBOSE: Keeping computer awake by sending 'F15' every 10 seconds
 VERBOSE: 120.00 minutes remaining
 VERBOSE: 119.83 minutes remaining
 VERBOSE: 119.67 minutes remaining
@@ -56,10 +56,27 @@ PS> Start-KeepAwake -Until "4:00 PM" -Verbose
 VERBOSE: Stopping time provided of: 4:00 PM
 VERBOSE: Adding 18.0951080466667 minutes of duration
 VERBOSE: Total duration is 18 minutes
-VERBOSE: Keeping computer awake by sending 'Shift + F15' every 60 seconds
+VERBOSE: Keeping computer awake by sending 'F15' every 60 seconds
 VERBOSE: 18.00 minutes remaining
 ```
 The `-Until` parameter converts input to a DateTime object allowing you to provide string text in a variety of formats and still get the correct time out of it.  E.g. `13:00`, `2:00 am`, `5/26/25 12:00 pm` are all acceptable.
+
+
+By default the keypress that's sent is F15.  This is the most widely used and has the least amount of impact on other things you may be doing on the computer though it will interfere with Putty sessions.  If you need to you can specify a different key be used with the `-Key` parameter.  To see a full list of keys that can be used you can use tab for auto completion or leverage PSReadline by pressing `Ctrl+Space` after the parameter to see a table like this.
+```Powershell
+PS> Start-KeepAwake -Key
+!            ,            7            B            M            X            c            n            y            Down         PrintScreen  F7
+"            -            8            C            N            Y            d            o            z            End          Right        F8
+#            .            9            D            O            Z            e            p            {            Enter        ScrollLock   F9
+$            /            :            E            P            [            f            q            |            Esc          Tab          F10
+%            0            ;            F            Q            \            g            r            }            Help         Up           F11
+&            1            <            G            R            ]            h            s            ~            Home         F1           F12
+'            2            =            H            S            ^            i            t            Shift        Insert       F2           F13
+(            3            >            I            T            _            j            u            Backspace    Left         F3           F14
+)            4            ?            J            U            `            k            v            Break        Numlock      F4           F15
+*            5            @            K            V            a            l            w            CapsLock     PageDown     F5           F16
++            6            A            L            W            b            m            x            Delete       PageUp       F6
+```
 
 ### Aliases
 Start-KeepAwake also ships with two aliases for it built in: `nosleep` and `ka`.  At its simplest this means you could open PowerShell and type:
